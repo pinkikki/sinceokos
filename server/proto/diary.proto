@@ -1,0 +1,11 @@
+syntax = "proto3";
+service Diary {
+  rpc Get (DiaryCriteria) returns (DiaryResponse) {}
+}
+message DiaryCriteria {
+  string target_cat = 1;
+}
+message DiaryResponse {
+  string no = 1;
+  string text = 2;
+}
