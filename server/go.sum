@@ -29,6 +29,7 @@ github.com/lyft/protoc-gen-validate v0.1.0 h1:NytKd9K7UW7Szxn+9PYNsaJ/98TL/WsDq4
 github.com/lyft/protoc-gen-validate v0.1.0/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
 github.com/mwitkow/go-proto-validators v0.1.0 h1:2Org0/cGKUUUDzoLSRSsGJDqyLWrb5lG57o5+QdRr8M=
 github.com/mwitkow/go-proto-validators v0.1.0/go.mod h1:bA3eoTMLQkf/A7h7JOC3ddMBLXwS19KK7DEeSPL1O+4=
+github.com/pinkikki/sinceokos v0.0.0-20190911041343-b020709cd828 h1:/t97BQX/+k6YWKjII53uWyaZ3PCG66BY0yLhCNCE4WQ=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/pseudomuto/protoc-gen-doc v1.3.0 h1:wpwmaSCWY2lGwkzAxAaqYcGyoklZjZmeXrJ/X7IskJM=
 github.com/pseudomuto/protoc-gen-doc v1.3.0/go.mod h1:fwtQAY9erXp3mC92O8OTECnDlJT2r0Ff4KSEKbGEmy0=

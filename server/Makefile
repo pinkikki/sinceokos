@@ -1,5 +1,5 @@
 BUILD_DIR=./build
-MODULE_NAME=pplate
+MODULE_NAME=sinceokos
 
 .PHONY: genpb
 genpb:
