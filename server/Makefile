@@ -3,10 +3,10 @@ MODULE_NAME=sinceokos
 
 .PHONY: genpb
 genpb:
-	cd proto;protoc --go_out=plugins=grpc:../app */*
+	protoc --go_out=plugins=grpc:./app -Iproto proto/*/*
 .PHONY: gendoc
 gendoc:
-	cd proto;protoc --doc_out=html,index.html:../doc */*
+	protoc --doc_out=html,index.html:./doc -Iproto proto/*/*
 .PHONY: test
 test:
 	go test -v ./...

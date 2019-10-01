@@ -3,7 +3,7 @@ service Diary {
   rpc Get (DiaryCriteria) returns (DiaryResponse) {}
 }
 message DiaryCriteria {
-  string target_cat = 1;
+  string no = 1;
 }
 message DiaryResponse {
   string no = 1;
