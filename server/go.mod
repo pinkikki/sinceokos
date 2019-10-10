@@ -13,6 +13,7 @@ require (
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/huandu/xstrings v1.2.0 // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/lyft/protoc-gen-validate v0.1.0 // indirect
 	github.com/mwitkow/go-proto-validators v0.1.0 // indirect
 	github.com/pinkikki/pplate v0.0.0-20190916234851-d9394a55a239

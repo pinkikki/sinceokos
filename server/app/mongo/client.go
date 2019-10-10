@@ -5,19 +5,29 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/kelseyhightower/envconfig"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type Config struct {
+	Username string
+	Password string
+	Host     string
+	Port     string
+}
+
 var (
 	client        *mongo.Client
 	databaseCache map[string]*mongo.Database = make(map[string]*mongo.Database)
+	config        Config
 )
 
 func init() {
-	credential := &options.Credential{Username: "root", Password: "password"}
+	envconfig.Process("SINCEOKOS_MONGO", &config)
+	credential := &options.Credential{Username: config.Username, Password: config.Password}
 	co := &options.ClientOptions{Auth: credential}
-	c, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"), co)
+	c, err := mongo.NewClient(options.Client().ApplyURI("mongodb://"+config.Host+":"+config.Port), co)
 	if err != nil {
 		fmt.Printf("Could not connect to mongodb. %v", err)
 		return
