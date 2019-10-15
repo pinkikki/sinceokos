@@ -3,7 +3,7 @@ MODULE_NAME=sinceokos
 
 .PHONY: genpb
 genpb:
-	protoc --go_out=plugins=grpc:./app -Iproto proto/*/*
+	protoc --go_out=plugins=grpc:. -Iproto -Iproto/vendor/google/protobuf/src proto/app/*/*
 .PHONY: gendoc
 gendoc:
 	protoc --doc_out=html,index.html:./doc -Iproto proto/*/*

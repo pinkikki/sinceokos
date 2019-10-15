@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service Diary {
+  rpc Get (DiaryCriteria) returns (DiaryResponse) {}
+  rpc Save (DiaryRequest) returns (google.protobuf.Empty) {}
+}
+message DiaryRequest {
+  string no = 1;
+  string text = 2;
+}
+message DiaryResponse {
+  string no = 1;
+  string text = 2;
+}
+message DiaryCriteria {
+  string no = 1;
+}
