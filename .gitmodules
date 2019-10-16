@@ -1,0 +1,6 @@
+[submodule "server/proto/vendor/google/protobuf"]
+	path = server/proto/vendor/google/protobuf
+	url = git@github.com:protocolbuffers/protobuf.git
+[submodule "server/proto/vendor/google/--force"]
+	path = server/proto/vendor/google/--force
+	url = git@github.com:protocolbuffers/protobuf.git
