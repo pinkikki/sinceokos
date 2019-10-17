@@ -17,6 +17,7 @@ func (s *DiaryService) Get(ctx context.Context, dc *DiaryCriteria) (*DiaryRespon
 	return &DiaryResponse{No: diary.No, Text: diary.Text}, nil
 }
 
-func (s *DiaryService) Save(context.Context, *DiaryRequest) (*empty.Empty, error) {
-	return nil, nil
+func (s *DiaryService) Save(ctx context.Context, dr *DiaryRequest) (*empty.Empty, error) {
+	err := Insert(&Diary{No: dr.No, Text: dr.Text})
+	return &empty.Empty{}, err
 }

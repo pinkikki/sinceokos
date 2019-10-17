@@ -18,7 +18,14 @@ func main() {
 
 	client := diary.NewDiaryClient(conn)
 	request := &diary.DiaryRequest{No: "10002", Text: "diary2"}
-	client.Save(request)
+	r, err := client.Save(context.TODO(), request)
+
+	if err != nil {
+		fmt.Printf("error::%#v \n", err)
+		fmt.Printf("response::%#v \n", r)
+		return
+	}
+
 	dc := &diary.DiaryCriteria{No: "10001"}
 	res, err := client.Get(context.TODO(), dc)
 	if err != nil {

@@ -26,10 +26,10 @@ func Find(no string) (*Diary, error) {
 	return diary, nil
 }
 
-func Save(diary *Diary) error {
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+func Insert(diary *Diary) error {
+	ctx, _ := context.WithTimeout(context.Background(), 50*time.Second)
 	collection := mongo.Database("sinceokos").Collection("diary")
-	res, err := collection.InsertOne(ctx, bson.M{"no": 1, "text": "diary"})
+	res, err := collection.InsertOne(ctx, bson.M{"no": diary.No, "text": diary.Text})
 	//res, err := collection.InsertOne(ctx, diary)
 	if err != nil {
 		fmt.Printf("%v", err)
