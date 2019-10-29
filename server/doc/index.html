@@ -175,7 +175,7 @@
         
           
           <li>
-            <a href="#diary%2fdiary.proto">diary/diary.proto</a>
+            <a href="#app%2fdiary%2fdiary.proto">app/diary/diary.proto</a>
             <ul>
               
                 <li>
@@ -183,7 +183,15 @@
                 </li>
               
                 <li>
-                  <a href="#.DiaryResponse"><span class="badge">M</span>DiaryResponse</a>
+                  <a href="#.DiaryRequest"><span class="badge">M</span>DiaryRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#.DiaryResource"><span class="badge">M</span>DiaryResource</a>
+                </li>
+              
+                <li>
+                  <a href="#.DiaryResources"><span class="badge">M</span>DiaryResources</a>
                 </li>
               
               
@@ -203,7 +211,7 @@
     
       
       <div class="file-heading">
-        <h2 id="diary/diary.proto">diary/diary.proto</h2><a href="#title">Top</a>
+        <h2 id="app/diary/diary.proto">app/diary/diary.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
 
@@ -232,7 +240,7 @@
 
         
       
-        <h3 id=".DiaryResponse">DiaryResponse</h3>
+        <h3 id=".DiaryRequest">DiaryRequest</h3>
         <p></p>
 
         
@@ -263,6 +271,61 @@
 
         
       
+        <h3 id=".DiaryResource">DiaryResource</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>no</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>text</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id=".DiaryResources">DiaryResources</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>diaries</td>
+                  <td><a href="#DiaryResource">DiaryResource</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -280,7 +343,28 @@
               <tr>
                 <td>Get</td>
                 <td><a href="#DiaryCriteria">.DiaryCriteria</a></td>
-                <td><a href="#DiaryResponse">.DiaryResponse</a></td>
+                <td><a href="#DiaryResource">.DiaryResource</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>List</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#DiaryResources">.DiaryResources</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>Save</td>
+                <td><a href="#DiaryRequest">.DiaryRequest</a></td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>Put</td>
+                <td><a href="#DiaryRequest">.DiaryRequest</a></td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
                 <td><p></p></td>
               </tr>
             

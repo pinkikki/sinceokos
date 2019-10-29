@@ -6,7 +6,7 @@ genpb:
 	protoc --go_out=plugins=grpc:. -Iproto -Iproto/vendor/google/protobuf/src proto/app/*/*
 .PHONY: gendoc
 gendoc:
-	protoc --doc_out=html,index.html:./doc -Iproto proto/*/*
+	protoc --doc_out=html,index.html:./doc -Iproto -Iproto/vendor/google/protobuf/src proto/app/*/*
 .PHONY: test
 test:
 	go test -v ./...
