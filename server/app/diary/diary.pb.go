@@ -72,7 +72,7 @@ func (m *DiaryRequest) GetText() string {
 	return ""
 }
 
-type DiaryResponse struct {
+type DiaryResource struct {
 	No                   string   `protobuf:"bytes,1,opt,name=no,proto3" json:"no,omitempty"`
 	Text                 string   `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -80,43 +80,82 @@ type DiaryResponse struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DiaryResponse) Reset()         { *m = DiaryResponse{} }
-func (m *DiaryResponse) String() string { return proto.CompactTextString(m) }
-func (*DiaryResponse) ProtoMessage()    {}
-func (*DiaryResponse) Descriptor() ([]byte, []int) {
+func (m *DiaryResource) Reset()         { *m = DiaryResource{} }
+func (m *DiaryResource) String() string { return proto.CompactTextString(m) }
+func (*DiaryResource) ProtoMessage()    {}
+func (*DiaryResource) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e382ecc22f169977, []int{1}
 }
 
-func (m *DiaryResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiaryResponse.Unmarshal(m, b)
+func (m *DiaryResource) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiaryResource.Unmarshal(m, b)
 }
-func (m *DiaryResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiaryResponse.Marshal(b, m, deterministic)
+func (m *DiaryResource) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiaryResource.Marshal(b, m, deterministic)
 }
-func (m *DiaryResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiaryResponse.Merge(m, src)
+func (m *DiaryResource) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiaryResource.Merge(m, src)
 }
-func (m *DiaryResponse) XXX_Size() int {
-	return xxx_messageInfo_DiaryResponse.Size(m)
+func (m *DiaryResource) XXX_Size() int {
+	return xxx_messageInfo_DiaryResource.Size(m)
 }
-func (m *DiaryResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiaryResponse.DiscardUnknown(m)
+func (m *DiaryResource) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiaryResource.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DiaryResponse proto.InternalMessageInfo
+var xxx_messageInfo_DiaryResource proto.InternalMessageInfo
 
-func (m *DiaryResponse) GetNo() string {
+func (m *DiaryResource) GetNo() string {
 	if m != nil {
 		return m.No
 	}
 	return ""
 }
 
-func (m *DiaryResponse) GetText() string {
+func (m *DiaryResource) GetText() string {
 	if m != nil {
 		return m.Text
 	}
 	return ""
+}
+
+type DiaryResources struct {
+	Diaries              []*DiaryResource `protobuf:"bytes,1,rep,name=diaries,proto3" json:"diaries,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *DiaryResources) Reset()         { *m = DiaryResources{} }
+func (m *DiaryResources) String() string { return proto.CompactTextString(m) }
+func (*DiaryResources) ProtoMessage()    {}
+func (*DiaryResources) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e382ecc22f169977, []int{2}
+}
+
+func (m *DiaryResources) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiaryResources.Unmarshal(m, b)
+}
+func (m *DiaryResources) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiaryResources.Marshal(b, m, deterministic)
+}
+func (m *DiaryResources) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiaryResources.Merge(m, src)
+}
+func (m *DiaryResources) XXX_Size() int {
+	return xxx_messageInfo_DiaryResources.Size(m)
+}
+func (m *DiaryResources) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiaryResources.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DiaryResources proto.InternalMessageInfo
+
+func (m *DiaryResources) GetDiaries() []*DiaryResource {
+	if m != nil {
+		return m.Diaries
+	}
+	return nil
 }
 
 type DiaryCriteria struct {
@@ -130,7 +169,7 @@ func (m *DiaryCriteria) Reset()         { *m = DiaryCriteria{} }
 func (m *DiaryCriteria) String() string { return proto.CompactTextString(m) }
 func (*DiaryCriteria) ProtoMessage()    {}
 func (*DiaryCriteria) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e382ecc22f169977, []int{2}
+	return fileDescriptor_e382ecc22f169977, []int{3}
 }
 
 func (m *DiaryCriteria) XXX_Unmarshal(b []byte) error {
@@ -160,26 +199,31 @@ func (m *DiaryCriteria) GetNo() string {
 
 func init() {
 	proto.RegisterType((*DiaryRequest)(nil), "DiaryRequest")
-	proto.RegisterType((*DiaryResponse)(nil), "DiaryResponse")
+	proto.RegisterType((*DiaryResource)(nil), "DiaryResource")
+	proto.RegisterType((*DiaryResources)(nil), "DiaryResources")
 	proto.RegisterType((*DiaryCriteria)(nil), "DiaryCriteria")
 }
 
 func init() { proto.RegisterFile("app/diary/diary.proto", fileDescriptor_e382ecc22f169977) }
 
 var fileDescriptor_e382ecc22f169977 = []byte{
-	// 192 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4d, 0x2c, 0x28, 0xd0,
-	0x4f, 0xc9, 0x4c, 0x2c, 0xaa, 0x84, 0x90, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x52, 0xd2, 0xe9,
-	0xf9, 0xf9, 0xe9, 0x39, 0xa9, 0xfa, 0x60, 0x5e, 0x52, 0x69, 0x9a, 0x7e, 0x6a, 0x6e, 0x41, 0x09,
-	0x54, 0x52, 0xc9, 0x88, 0x8b, 0xc7, 0x05, 0xa4, 0x36, 0x28, 0xb5, 0xb0, 0x34, 0xb5, 0xb8, 0x44,
-	0x88, 0x8f, 0x8b, 0x29, 0x2f, 0x5f, 0x82, 0x51, 0x81, 0x51, 0x83, 0x33, 0x88, 0x29, 0x2f, 0x5f,
-	0x48, 0x88, 0x8b, 0xa5, 0x24, 0xb5, 0xa2, 0x44, 0x82, 0x09, 0x2c, 0x02, 0x66, 0x2b, 0x19, 0x73,
-	0xf1, 0x42, 0xf5, 0x14, 0x17, 0xe4, 0xe7, 0x15, 0xa7, 0x12, 0xa5, 0x49, 0x1e, 0xaa, 0xc9, 0xb9,
-	0x28, 0xb3, 0x24, 0xb5, 0x28, 0x33, 0x11, 0x5d, 0x93, 0x51, 0x22, 0x17, 0x2b, 0x58, 0x81, 0x90,
-	0x3a, 0x17, 0xb3, 0x7b, 0x6a, 0x89, 0x10, 0x9f, 0x1e, 0x8a, 0x7a, 0x29, 0x28, 0x1f, 0x66, 0xa9,
-	0x12, 0x83, 0x90, 0x3e, 0x17, 0x4b, 0x70, 0x62, 0x59, 0xaa, 0x10, 0xaf, 0x1e, 0xb2, 0x17, 0xa4,
-	0xc4, 0xf4, 0x20, 0x1e, 0xd6, 0x83, 0x79, 0x58, 0xcf, 0x15, 0xe4, 0x61, 0x25, 0x86, 0x24, 0x36,
-	0xb0, 0x88, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x4c, 0xac, 0x3e, 0x83, 0x29, 0x01, 0x00, 0x00,
+	// 249 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x90, 0x4f, 0x4b, 0xc4, 0x30,
+	0x10, 0xc5, 0xfb, 0x4f, 0xc5, 0xd1, 0xad, 0x30, 0xa0, 0x94, 0x7a, 0x70, 0xc9, 0xc5, 0x9e, 0x52,
+	0xec, 0xde, 0xbc, 0xaa, 0x78, 0xf1, 0x20, 0xf5, 0x13, 0x74, 0x75, 0x5c, 0x02, 0xba, 0xa9, 0xc9,
+	0x44, 0xf4, 0xfb, 0xf9, 0xc1, 0xa4, 0xd9, 0x14, 0xec, 0x82, 0xb0, 0x97, 0x90, 0xcc, 0xbc, 0xdf,
+	0x7b, 0xe1, 0xc1, 0x69, 0xd7, 0xf7, 0xf5, 0x8b, 0xea, 0xcc, 0xf7, 0xe6, 0x94, 0xbd, 0xd1, 0xac,
+	0xcb, 0xf3, 0x95, 0xd6, 0xab, 0x37, 0xaa, 0xfd, 0x6b, 0xe9, 0x5e, 0x6b, 0x7a, 0xef, 0x39, 0x2c,
+	0x45, 0x03, 0xc7, 0xb7, 0x83, 0xb6, 0xa5, 0x0f, 0x47, 0x96, 0x31, 0x87, 0x64, 0xad, 0x8b, 0x78,
+	0x1e, 0x57, 0x87, 0x6d, 0xb2, 0xd6, 0x88, 0x90, 0x31, 0x7d, 0x71, 0x91, 0xf8, 0x89, 0xbf, 0x8b,
+	0x05, 0xcc, 0x02, 0x63, 0xb5, 0x33, 0xcf, 0xb4, 0x13, 0x74, 0x0d, 0xf9, 0x04, 0xb2, 0x58, 0xc1,
+	0xc1, 0xf0, 0x4d, 0x45, 0xb6, 0x88, 0xe7, 0x69, 0x75, 0xd4, 0xe4, 0x72, 0xa2, 0x68, 0xc7, 0xb5,
+	0xb8, 0x08, 0x81, 0x37, 0x46, 0x31, 0x19, 0xd5, 0x6d, 0x07, 0x36, 0x3f, 0x31, 0xec, 0x79, 0x05,
+	0x5e, 0x42, 0x7a, 0x4f, 0x8c, 0xc1, 0x6a, 0x04, 0xca, 0x2d, 0x6b, 0x11, 0xe1, 0x15, 0x64, 0x0f,
+	0xca, 0x32, 0x9e, 0xc9, 0x4d, 0x3d, 0x72, 0xac, 0x47, 0xde, 0x0d, 0xf5, 0x94, 0x27, 0x53, 0xc2,
+	0x8a, 0x08, 0x6b, 0xc8, 0x9e, 0xba, 0x4f, 0xc2, 0x99, 0xfc, 0x5b, 0x59, 0xf9, 0x8f, 0x83, 0x88,
+	0x50, 0x42, 0xfa, 0xe8, 0x78, 0x67, 0xfd, 0x72, 0xdf, 0x4f, 0x16, 0xbf, 0x01, 0x00, 0x00, 0xff,
+	0xff, 0x70, 0x14, 0xfb, 0x63, 0xc9, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -194,8 +238,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DiaryClient interface {
-	Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResponse, error)
+	Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResource, error)
+	List(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiaryResources, error)
 	Save(ctx context.Context, in *DiaryRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	Put(ctx context.Context, in *DiaryRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type diaryClient struct {
@@ -206,9 +252,18 @@ func NewDiaryClient(cc *grpc.ClientConn) DiaryClient {
 	return &diaryClient{cc}
 }
 
-func (c *diaryClient) Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResponse, error) {
-	out := new(DiaryResponse)
+func (c *diaryClient) Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResource, error) {
+	out := new(DiaryResource)
 	err := c.cc.Invoke(ctx, "/Diary/Get", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *diaryClient) List(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiaryResources, error) {
+	out := new(DiaryResources)
+	err := c.cc.Invoke(ctx, "/Diary/List", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -224,21 +279,38 @@ func (c *diaryClient) Save(ctx context.Context, in *DiaryRequest, opts ...grpc.C
 	return out, nil
 }
 
+func (c *diaryClient) Put(ctx context.Context, in *DiaryRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/Diary/Put", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DiaryServer is the server API for Diary service.
 type DiaryServer interface {
-	Get(context.Context, *DiaryCriteria) (*DiaryResponse, error)
+	Get(context.Context, *DiaryCriteria) (*DiaryResource, error)
+	List(context.Context, *empty.Empty) (*DiaryResources, error)
 	Save(context.Context, *DiaryRequest) (*empty.Empty, error)
+	Put(context.Context, *DiaryRequest) (*empty.Empty, error)
 }
 
 // UnimplementedDiaryServer can be embedded to have forward compatible implementations.
 type UnimplementedDiaryServer struct {
 }
 
-func (*UnimplementedDiaryServer) Get(ctx context.Context, req *DiaryCriteria) (*DiaryResponse, error) {
+func (*UnimplementedDiaryServer) Get(ctx context.Context, req *DiaryCriteria) (*DiaryResource, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedDiaryServer) List(ctx context.Context, req *empty.Empty) (*DiaryResources, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
 func (*UnimplementedDiaryServer) Save(ctx context.Context, req *DiaryRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
+}
+func (*UnimplementedDiaryServer) Put(ctx context.Context, req *DiaryRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Put not implemented")
 }
 
 func RegisterDiaryServer(s *grpc.Server, srv DiaryServer) {
@@ -263,6 +335,24 @@ func _Diary_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Diary_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/List",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).List(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Diary_Save_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DiaryRequest)
 	if err := dec(in); err != nil {
@@ -281,6 +371,24 @@ func _Diary_Save_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Diary_Put_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).Put(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/Put",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).Put(ctx, req.(*DiaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Diary_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Diary",
 	HandlerType: (*DiaryServer)(nil),
@@ -290,8 +398,16 @@ var _Diary_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Diary_Get_Handler,
 		},
 		{
+			MethodName: "List",
+			Handler:    _Diary_List_Handler,
+		},
+		{
 			MethodName: "Save",
 			Handler:    _Diary_Save_Handler,
+		},
+		{
+			MethodName: "Put",
+			Handler:    _Diary_Put_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

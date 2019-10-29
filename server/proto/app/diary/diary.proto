@@ -3,16 +3,21 @@ syntax = "proto3";
 import "google/protobuf/empty.proto";
 
 service Diary {
-  rpc Get (DiaryCriteria) returns (DiaryResponse) {}
+  rpc Get (DiaryCriteria) returns (DiaryResource) {}
+  rpc List (google.protobuf.Empty) returns (DiaryResources) {}
   rpc Save (DiaryRequest) returns (google.protobuf.Empty) {}
+  rpc Put (DiaryRequest) returns (google.protobuf.Empty) {}
 }
 message DiaryRequest {
   string no = 1;
   string text = 2;
 }
-message DiaryResponse {
+message DiaryResource {
   string no = 1;
   string text = 2;
+}
+message DiaryResources {
+  repeated DiaryResource diaries = 1;
 }
 message DiaryCriteria {
   string no = 1;
