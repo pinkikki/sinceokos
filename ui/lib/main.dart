@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sinceokos_ui/port/diary.pb.dart';
 import 'package:sinceokos_ui/port/diary_service.dart';
+import 'package:sinceokos_ui/search.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +29,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<DiaryResource> _diaries = List();
+  DiarySearchDelegate _delegate = new DiarySearchDelegate();
 
   Future<void> _get() async {
     var response = await DiaryService.list();
@@ -36,33 +38,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-//      body: Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//            ),
-//            Text(
-//              '$_text',
-//              style: Theme
-//                  .of(context)
-//                  .textTheme
-//                  .display1,
-//            ),
-//          ],
-//        ),
-//      ),
-      body: ListView.builder(
-          itemCount: _diaries.length,
+  List<DiaryResource> filter(selected) {
+     return _diaries.where((d) => d.text.contains(selected)).toList();
+  }
+
+  Widget buildDiaries(diaries) {
+    return ListView.builder(
+          itemCount: diaries.length,
           itemBuilder: (context, index) {
-            var diary = _diaries[index];
+            var diary = diaries[index];
             return Column(
               children: <Widget>[
                 Row(
@@ -118,12 +102,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ],
             );
-//            return ListTile(
-//              leading: Icon(Icons.crop_din),
-//              title: Text(diary.no),
-//              subtitle: Text(diary.text),
-//            );
-          }),
+          });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () async {
+//              _delegate.setDiaries(_diaries);
+              final String selected = await showSearch<String>(
+                context: context,
+                delegate: _delegate,
+              );
+              debugPrint(selected);
+            },
+          )
+        ],
+      ),
+      body: buildDiaries(_diaries),
       floatingActionButton: FloatingActionButton(
         onPressed: _get,
         tooltip: 'Increment',

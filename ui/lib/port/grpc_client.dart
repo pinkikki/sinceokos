@@ -8,7 +8,7 @@ class GrpcClientSingleton {
   factory GrpcClientSingleton() => _singleton;
 
   GrpcClientSingleton._internal() {
-    client = ClientChannel("172.20.10.5",
+    client = ClientChannel("172.19.0.1",
         port: 19003,
         options: ChannelOptions(
           credentials: ChannelCredentials.insecure(),
