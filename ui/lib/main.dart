@@ -28,81 +28,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<DiaryResource> _diaries = List();
   DiarySearchDelegate _delegate = new DiarySearchDelegate();
+  DiaryResource _currentDiary;
 
-  Future<void> _get() async {
-    var response = await DiaryService.list();
+  Future<void> _get(selected) async {
+    var response = await DiaryService.get(selected);
     setState(() {
-      _diaries = response.diaries;
+      _currentDiary = response;
     });
   }
 
-  List<DiaryResource> filter(selected) {
-     return _diaries.where((d) => d.text.contains(selected)).toList();
-  }
+  Future<void> _next() async {}
 
-  Widget buildDiaries(diaries) {
-    return ListView.builder(
-          itemCount: diaries.length,
-          itemBuilder: (context, index) {
-            var diary = diaries[index];
-            return Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
-                          child: Text(
-                            diary.no,
-                            style: TextStyle(
-                                fontSize: 22.0, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0),
-                          child: Text(
-                            diary.text,
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            "5m",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.star_border,
-                              size: 35.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(
-                  height: 2.0,
-                  color: Colors.grey,
-                )
-              ],
-            );
-          });
+  Future<void> _previous() async {}
+
+  Widget buildDiary() {
+    if (_currentDiary == null) {
+      return Container();
+    }
+    return Column(children: <Widget>[
+      Container(
+        decoration:
+            BoxDecoration(border: Border.all(color: Colors.black12, width: 2)),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(3),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(_currentDiary.text),
+              Text(_currentDiary.no)
+            ]),
+      ),
+      Expanded(
+          child: ListView(children: [
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black12, width: 2)),
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.all(3),
+          child: Row(children: <Widget>[Text(_currentDiary.text)]),
+        )
+      ]))
+    ]);
   }
 
   @override
@@ -114,22 +81,36 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () async {
-//              _delegate.setDiaries(_diaries);
               final String selected = await showSearch<String>(
                 context: context,
                 delegate: _delegate,
               );
               debugPrint(selected);
+              _get(selected);
             },
           )
         ],
       ),
-      body: buildDiaries(_diaries),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _get,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      body: buildDiary(),
+      floatingActionButton: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+        FloatingActionButton(
+          heroTag: 'previous',
+          onPressed: _previous,
+          tooltip: 'Previous',
+          child: Icon(Icons.navigate_before),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 5),
+          child: FloatingActionButton(
+            heroTag: 'next',
+            onPressed: _next,
+            tooltip: 'Next',
+            child: Icon(Icons.navigate_next),
+          ),
+        )
+      ]),
     );
   }
 }
