@@ -7,18 +7,24 @@ import (
 
 	"github.com/pinkikki/sinceokos/server/app/mongo"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Diary struct {
-	No   string
-	Text string
+	Id        primitive.ObjectID   `json:"_id" bson:"_id,omitempty"` 
+	Title     string    `json:"title"`
+	Text      string    `json:"text"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func Find(no string) (*Diary, error) {
+func Find(id string) (*Diary, error) {
 	var diary *Diary
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	collection := mongo.Database("sinceokos").Collection("diary")
-	err := collection.FindOne(ctx, bson.M{"no": no}).Decode(&diary)
+
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	err := collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&diary)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +75,7 @@ func Insert(diary *Diary) error {
 func Update(diary *Diary) error {
 	ctx, _ := context.WithTimeout(context.Background(), 50*time.Second)
 	collection := mongo.Database("sinceokos").Collection("diary")
-	res, err := collection.UpdateOne(ctx, bson.M{"no": diary.No}, bson.M{"$set": bson.M{"text": diary.Text}})
+	res, err := collection.UpdateOne(ctx, bson.M{"_id": diary.Id}, bson.M{"$set": bson.M{"title": diary.Title, "text": diary.Text}})
 	if err != nil {
 		fmt.Printf("%v", err)
 		return err

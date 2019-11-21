@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -26,8 +27,9 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type DiaryRequest struct {
-	No                   string   `protobuf:"bytes,1,opt,name=no,proto3" json:"no,omitempty"`
-	Text                 string   `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title                string   `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Text                 string   `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -58,9 +60,16 @@ func (m *DiaryRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DiaryRequest proto.InternalMessageInfo
 
-func (m *DiaryRequest) GetNo() string {
+func (m *DiaryRequest) GetId() string {
 	if m != nil {
-		return m.No
+		return m.Id
+	}
+	return ""
+}
+
+func (m *DiaryRequest) GetTitle() string {
+	if m != nil {
+		return m.Title
 	}
 	return ""
 }
@@ -73,11 +82,14 @@ func (m *DiaryRequest) GetText() string {
 }
 
 type DiaryResource struct {
-	No                   string   `protobuf:"bytes,1,opt,name=no,proto3" json:"no,omitempty"`
-	Text                 string   `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Id                   string               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title                string               `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Text                 string               `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty"`
+	CreatedAt            *timestamp.Timestamp `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt            *timestamp.Timestamp `protobuf:"bytes,5,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
 func (m *DiaryResource) Reset()         { *m = DiaryResource{} }
@@ -105,9 +117,16 @@ func (m *DiaryResource) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DiaryResource proto.InternalMessageInfo
 
-func (m *DiaryResource) GetNo() string {
+func (m *DiaryResource) GetId() string {
 	if m != nil {
-		return m.No
+		return m.Id
+	}
+	return ""
+}
+
+func (m *DiaryResource) GetTitle() string {
+	if m != nil {
+		return m.Title
 	}
 	return ""
 }
@@ -117,6 +136,20 @@ func (m *DiaryResource) GetText() string {
 		return m.Text
 	}
 	return ""
+}
+
+func (m *DiaryResource) GetCreatedAt() *timestamp.Timestamp {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return nil
+}
+
+func (m *DiaryResource) GetUpdatedAt() *timestamp.Timestamp {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return nil
 }
 
 type DiaryResources struct {
@@ -158,41 +191,119 @@ func (m *DiaryResources) GetDiaries() []*DiaryResource {
 	return nil
 }
 
-type DiaryCriteria struct {
-	No                   string   `protobuf:"bytes,1,opt,name=no,proto3" json:"no,omitempty"`
+type DiaryId struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DiaryCriteria) Reset()         { *m = DiaryCriteria{} }
-func (m *DiaryCriteria) String() string { return proto.CompactTextString(m) }
-func (*DiaryCriteria) ProtoMessage()    {}
-func (*DiaryCriteria) Descriptor() ([]byte, []int) {
+func (m *DiaryId) Reset()         { *m = DiaryId{} }
+func (m *DiaryId) String() string { return proto.CompactTextString(m) }
+func (*DiaryId) ProtoMessage()    {}
+func (*DiaryId) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e382ecc22f169977, []int{3}
 }
 
-func (m *DiaryCriteria) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiaryCriteria.Unmarshal(m, b)
+func (m *DiaryId) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiaryId.Unmarshal(m, b)
 }
-func (m *DiaryCriteria) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiaryCriteria.Marshal(b, m, deterministic)
+func (m *DiaryId) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiaryId.Marshal(b, m, deterministic)
 }
-func (m *DiaryCriteria) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiaryCriteria.Merge(m, src)
+func (m *DiaryId) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiaryId.Merge(m, src)
 }
-func (m *DiaryCriteria) XXX_Size() int {
-	return xxx_messageInfo_DiaryCriteria.Size(m)
+func (m *DiaryId) XXX_Size() int {
+	return xxx_messageInfo_DiaryId.Size(m)
 }
-func (m *DiaryCriteria) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiaryCriteria.DiscardUnknown(m)
+func (m *DiaryId) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiaryId.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DiaryCriteria proto.InternalMessageInfo
+var xxx_messageInfo_DiaryId proto.InternalMessageInfo
 
-func (m *DiaryCriteria) GetNo() string {
+func (m *DiaryId) GetId() string {
 	if m != nil {
-		return m.No
+		return m.Id
+	}
+	return ""
+}
+
+type DiarySnapshot struct {
+	Snapshot             []byte   `protobuf:"bytes,1,opt,name=snapshot,proto3" json:"snapshot,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DiarySnapshot) Reset()         { *m = DiarySnapshot{} }
+func (m *DiarySnapshot) String() string { return proto.CompactTextString(m) }
+func (*DiarySnapshot) ProtoMessage()    {}
+func (*DiarySnapshot) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e382ecc22f169977, []int{4}
+}
+
+func (m *DiarySnapshot) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiarySnapshot.Unmarshal(m, b)
+}
+func (m *DiarySnapshot) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiarySnapshot.Marshal(b, m, deterministic)
+}
+func (m *DiarySnapshot) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiarySnapshot.Merge(m, src)
+}
+func (m *DiarySnapshot) XXX_Size() int {
+	return xxx_messageInfo_DiarySnapshot.Size(m)
+}
+func (m *DiarySnapshot) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiarySnapshot.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DiarySnapshot proto.InternalMessageInfo
+
+func (m *DiarySnapshot) GetSnapshot() []byte {
+	if m != nil {
+		return m.Snapshot
+	}
+	return nil
+}
+
+type DiarySnapshotId struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DiarySnapshotId) Reset()         { *m = DiarySnapshotId{} }
+func (m *DiarySnapshotId) String() string { return proto.CompactTextString(m) }
+func (*DiarySnapshotId) ProtoMessage()    {}
+func (*DiarySnapshotId) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e382ecc22f169977, []int{5}
+}
+
+func (m *DiarySnapshotId) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DiarySnapshotId.Unmarshal(m, b)
+}
+func (m *DiarySnapshotId) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DiarySnapshotId.Marshal(b, m, deterministic)
+}
+func (m *DiarySnapshotId) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DiarySnapshotId.Merge(m, src)
+}
+func (m *DiarySnapshotId) XXX_Size() int {
+	return xxx_messageInfo_DiarySnapshotId.Size(m)
+}
+func (m *DiarySnapshotId) XXX_DiscardUnknown() {
+	xxx_messageInfo_DiarySnapshotId.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DiarySnapshotId proto.InternalMessageInfo
+
+func (m *DiarySnapshotId) GetId() string {
+	if m != nil {
+		return m.Id
 	}
 	return ""
 }
@@ -201,29 +312,40 @@ func init() {
 	proto.RegisterType((*DiaryRequest)(nil), "DiaryRequest")
 	proto.RegisterType((*DiaryResource)(nil), "DiaryResource")
 	proto.RegisterType((*DiaryResources)(nil), "DiaryResources")
-	proto.RegisterType((*DiaryCriteria)(nil), "DiaryCriteria")
+	proto.RegisterType((*DiaryId)(nil), "DiaryId")
+	proto.RegisterType((*DiarySnapshot)(nil), "DiarySnapshot")
+	proto.RegisterType((*DiarySnapshotId)(nil), "DiarySnapshotId")
 }
 
 func init() { proto.RegisterFile("app/diary/diary.proto", fileDescriptor_e382ecc22f169977) }
 
 var fileDescriptor_e382ecc22f169977 = []byte{
-	// 249 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x90, 0x4f, 0x4b, 0xc4, 0x30,
-	0x10, 0xc5, 0xfb, 0x4f, 0xc5, 0xd1, 0xad, 0x30, 0xa0, 0x94, 0x7a, 0x70, 0xc9, 0xc5, 0x9e, 0x52,
-	0xec, 0xde, 0xbc, 0xaa, 0x78, 0xf1, 0x20, 0xf5, 0x13, 0x74, 0x75, 0x5c, 0x02, 0xba, 0xa9, 0xc9,
-	0x44, 0xf4, 0xfb, 0xf9, 0xc1, 0xa4, 0xd9, 0x14, 0xec, 0x82, 0xb0, 0x97, 0x90, 0xcc, 0xbc, 0xdf,
-	0x7b, 0xe1, 0xc1, 0x69, 0xd7, 0xf7, 0xf5, 0x8b, 0xea, 0xcc, 0xf7, 0xe6, 0x94, 0xbd, 0xd1, 0xac,
-	0xcb, 0xf3, 0x95, 0xd6, 0xab, 0x37, 0xaa, 0xfd, 0x6b, 0xe9, 0x5e, 0x6b, 0x7a, 0xef, 0x39, 0x2c,
-	0x45, 0x03, 0xc7, 0xb7, 0x83, 0xb6, 0xa5, 0x0f, 0x47, 0x96, 0x31, 0x87, 0x64, 0xad, 0x8b, 0x78,
-	0x1e, 0x57, 0x87, 0x6d, 0xb2, 0xd6, 0x88, 0x90, 0x31, 0x7d, 0x71, 0x91, 0xf8, 0x89, 0xbf, 0x8b,
-	0x05, 0xcc, 0x02, 0x63, 0xb5, 0x33, 0xcf, 0xb4, 0x13, 0x74, 0x0d, 0xf9, 0x04, 0xb2, 0x58, 0xc1,
-	0xc1, 0xf0, 0x4d, 0x45, 0xb6, 0x88, 0xe7, 0x69, 0x75, 0xd4, 0xe4, 0x72, 0xa2, 0x68, 0xc7, 0xb5,
-	0xb8, 0x08, 0x81, 0x37, 0x46, 0x31, 0x19, 0xd5, 0x6d, 0x07, 0x36, 0x3f, 0x31, 0xec, 0x79, 0x05,
-	0x5e, 0x42, 0x7a, 0x4f, 0x8c, 0xc1, 0x6a, 0x04, 0xca, 0x2d, 0x6b, 0x11, 0xe1, 0x15, 0x64, 0x0f,
-	0xca, 0x32, 0x9e, 0xc9, 0x4d, 0x3d, 0x72, 0xac, 0x47, 0xde, 0x0d, 0xf5, 0x94, 0x27, 0x53, 0xc2,
-	0x8a, 0x08, 0x6b, 0xc8, 0x9e, 0xba, 0x4f, 0xc2, 0x99, 0xfc, 0x5b, 0x59, 0xf9, 0x8f, 0x83, 0x88,
-	0x50, 0x42, 0xfa, 0xe8, 0x78, 0x67, 0xfd, 0x72, 0xdf, 0x4f, 0x16, 0xbf, 0x01, 0x00, 0x00, 0xff,
-	0xff, 0x70, 0x14, 0xfb, 0x63, 0xc9, 0x01, 0x00, 0x00,
+	// 390 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xdd, 0xaa, 0xd3, 0x40,
+	0x10, 0xc7, 0xf3, 0xd5, 0x73, 0x72, 0xe6, 0xf4, 0x43, 0x06, 0x95, 0x18, 0x2f, 0x6c, 0xf7, 0x42,
+	0x02, 0xc2, 0x06, 0xe3, 0x8d, 0x78, 0x27, 0x54, 0x54, 0x10, 0x29, 0xa9, 0x3e, 0x40, 0xda, 0xac,
+	0x75, 0xa1, 0xed, 0xae, 0xd9, 0x4d, 0xd5, 0x87, 0xf3, 0x95, 0x7c, 0x06, 0xc9, 0x26, 0xa9, 0x26,
+	0xa5, 0x15, 0xbd, 0x09, 0x3b, 0xf3, 0xff, 0xcd, 0x7f, 0x67, 0x26, 0x0b, 0xf7, 0x32, 0x29, 0xe3,
+	0x9c, 0x67, 0xc5, 0xf7, 0xfa, 0x4b, 0x65, 0x21, 0xb4, 0x08, 0x1f, 0x6e, 0x84, 0xd8, 0x6c, 0x59,
+	0x6c, 0xa2, 0x55, 0xf9, 0x29, 0x66, 0x3b, 0xa9, 0x5b, 0xf1, 0x51, 0x5f, 0xd4, 0x7c, 0xc7, 0x94,
+	0xce, 0x76, 0xb2, 0x06, 0xc8, 0x1b, 0x18, 0xce, 0x2b, 0xb3, 0x94, 0x7d, 0x29, 0x99, 0xd2, 0x38,
+	0x06, 0x87, 0xe7, 0x81, 0x3d, 0xb5, 0xa3, 0x9b, 0xd4, 0xe1, 0x39, 0xde, 0x85, 0x81, 0xe6, 0x7a,
+	0xcb, 0x02, 0xc7, 0xa4, 0xea, 0x00, 0x11, 0x3c, 0xcd, 0xbe, 0xe9, 0xc0, 0x35, 0x49, 0x73, 0x26,
+	0x3f, 0x6c, 0x18, 0x35, 0x56, 0x4a, 0x94, 0xc5, 0x9a, 0xfd, 0xbf, 0x17, 0x3e, 0x87, 0x9b, 0x75,
+	0xc1, 0x32, 0xcd, 0xf2, 0x97, 0x3a, 0xf0, 0xa6, 0x76, 0x74, 0x9b, 0x84, 0xb4, 0x1e, 0x85, 0xb6,
+	0xa3, 0xd0, 0x0f, 0xed, 0x28, 0xe9, 0x6f, 0xb8, 0xaa, 0x2c, 0x65, 0xde, 0x54, 0x0e, 0xfe, 0x5e,
+	0x79, 0x84, 0xc9, 0x0b, 0x18, 0x77, 0xda, 0x57, 0x18, 0xc1, 0x75, 0xb5, 0x68, 0xce, 0x54, 0x60,
+	0x4f, 0xdd, 0xe8, 0x36, 0x19, 0xd3, 0x0e, 0x91, 0xb6, 0x32, 0x79, 0x00, 0xd7, 0x46, 0x79, 0x9b,
+	0xf7, 0x87, 0x26, 0x4f, 0x9a, 0xad, 0x2c, 0xf7, 0x99, 0x54, 0x9f, 0x85, 0xc6, 0x10, 0x7c, 0xd5,
+	0x9c, 0x0d, 0x36, 0x4c, 0x8f, 0x31, 0x99, 0xc1, 0xa4, 0x03, 0x9f, 0xfa, 0x25, 0x3f, 0x1d, 0x18,
+	0x18, 0x06, 0x67, 0xe0, 0xbe, 0x66, 0x1a, 0x7d, 0xda, 0x5c, 0x1d, 0xf6, 0xda, 0x23, 0x16, 0x3e,
+	0x05, 0xef, 0x1d, 0x57, 0x1a, 0xef, 0x9f, 0xac, 0xe0, 0x55, 0xf5, 0x48, 0xc2, 0x49, 0xb7, 0x42,
+	0x11, 0x0b, 0x09, 0x78, 0xef, 0xab, 0x5f, 0x70, 0xc9, 0xf6, 0x31, 0xf8, 0x8b, 0x82, 0x1d, 0xb8,
+	0x28, 0xd5, 0x45, 0x2e, 0x06, 0x6f, 0x99, 0x1d, 0x18, 0x8e, 0xe8, 0x9f, 0x6f, 0x2c, 0x3c, 0xd3,
+	0x0d, 0xb1, 0x90, 0x82, 0xbb, 0x28, 0xf5, 0xbf, 0xf0, 0xfe, 0x5c, 0x7c, 0xdd, 0x6f, 0x45, 0x96,
+	0xe3, 0x1d, 0xda, 0x5b, 0x5d, 0xdb, 0x50, 0x9b, 0x21, 0x16, 0x26, 0x70, 0xf5, 0x51, 0x1a, 0xba,
+	0xa7, 0x9d, 0xbf, 0x63, 0x75, 0x65, 0x32, 0xcf, 0x7e, 0x05, 0x00, 0x00, 0xff, 0xff, 0x95, 0xd3,
+	0xda, 0x4f, 0x7f, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -238,10 +360,14 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DiaryClient interface {
-	Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResource, error)
+	Get(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error)
 	List(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiaryResources, error)
+	Next(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error)
+	Previous(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error)
 	Save(ctx context.Context, in *DiaryRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Put(ctx context.Context, in *DiaryRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	Download(ctx context.Context, in *DiarySnapshotId, opts ...grpc.CallOption) (*DiarySnapshot, error)
+	Upload(ctx context.Context, in *DiarySnapshot, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type diaryClient struct {
@@ -252,7 +378,7 @@ func NewDiaryClient(cc *grpc.ClientConn) DiaryClient {
 	return &diaryClient{cc}
 }
 
-func (c *diaryClient) Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.CallOption) (*DiaryResource, error) {
+func (c *diaryClient) Get(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error) {
 	out := new(DiaryResource)
 	err := c.cc.Invoke(ctx, "/Diary/Get", in, out, opts...)
 	if err != nil {
@@ -264,6 +390,24 @@ func (c *diaryClient) Get(ctx context.Context, in *DiaryCriteria, opts ...grpc.C
 func (c *diaryClient) List(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiaryResources, error) {
 	out := new(DiaryResources)
 	err := c.cc.Invoke(ctx, "/Diary/List", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *diaryClient) Next(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error) {
+	out := new(DiaryResource)
+	err := c.cc.Invoke(ctx, "/Diary/Next", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *diaryClient) Previous(ctx context.Context, in *DiaryId, opts ...grpc.CallOption) (*DiaryResource, error) {
+	out := new(DiaryResource)
+	err := c.cc.Invoke(ctx, "/Diary/Previous", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -288,23 +432,51 @@ func (c *diaryClient) Put(ctx context.Context, in *DiaryRequest, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *diaryClient) Download(ctx context.Context, in *DiarySnapshotId, opts ...grpc.CallOption) (*DiarySnapshot, error) {
+	out := new(DiarySnapshot)
+	err := c.cc.Invoke(ctx, "/Diary/Download", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *diaryClient) Upload(ctx context.Context, in *DiarySnapshot, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/Diary/Upload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DiaryServer is the server API for Diary service.
 type DiaryServer interface {
-	Get(context.Context, *DiaryCriteria) (*DiaryResource, error)
+	Get(context.Context, *DiaryId) (*DiaryResource, error)
 	List(context.Context, *empty.Empty) (*DiaryResources, error)
+	Next(context.Context, *DiaryId) (*DiaryResource, error)
+	Previous(context.Context, *DiaryId) (*DiaryResource, error)
 	Save(context.Context, *DiaryRequest) (*empty.Empty, error)
 	Put(context.Context, *DiaryRequest) (*empty.Empty, error)
+	Download(context.Context, *DiarySnapshotId) (*DiarySnapshot, error)
+	Upload(context.Context, *DiarySnapshot) (*empty.Empty, error)
 }
 
 // UnimplementedDiaryServer can be embedded to have forward compatible implementations.
 type UnimplementedDiaryServer struct {
 }
 
-func (*UnimplementedDiaryServer) Get(ctx context.Context, req *DiaryCriteria) (*DiaryResource, error) {
+func (*UnimplementedDiaryServer) Get(ctx context.Context, req *DiaryId) (*DiaryResource, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (*UnimplementedDiaryServer) List(ctx context.Context, req *empty.Empty) (*DiaryResources, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (*UnimplementedDiaryServer) Next(ctx context.Context, req *DiaryId) (*DiaryResource, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Next not implemented")
+}
+func (*UnimplementedDiaryServer) Previous(ctx context.Context, req *DiaryId) (*DiaryResource, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Previous not implemented")
 }
 func (*UnimplementedDiaryServer) Save(ctx context.Context, req *DiaryRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
@@ -312,13 +484,19 @@ func (*UnimplementedDiaryServer) Save(ctx context.Context, req *DiaryRequest) (*
 func (*UnimplementedDiaryServer) Put(ctx context.Context, req *DiaryRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Put not implemented")
 }
+func (*UnimplementedDiaryServer) Download(ctx context.Context, req *DiarySnapshotId) (*DiarySnapshot, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Download not implemented")
+}
+func (*UnimplementedDiaryServer) Upload(ctx context.Context, req *DiarySnapshot) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Upload not implemented")
+}
 
 func RegisterDiaryServer(s *grpc.Server, srv DiaryServer) {
 	s.RegisterService(&_Diary_serviceDesc, srv)
 }
 
 func _Diary_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DiaryCriteria)
+	in := new(DiaryId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -330,7 +508,7 @@ func _Diary_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/Diary/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DiaryServer).Get(ctx, req.(*DiaryCriteria))
+		return srv.(DiaryServer).Get(ctx, req.(*DiaryId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -349,6 +527,42 @@ func _Diary_List_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DiaryServer).List(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Diary_Next_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiaryId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).Next(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/Next",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).Next(ctx, req.(*DiaryId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Diary_Previous_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiaryId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).Previous(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/Previous",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).Previous(ctx, req.(*DiaryId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -389,6 +603,42 @@ func _Diary_Put_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Diary_Download_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiarySnapshotId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).Download(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/Download",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).Download(ctx, req.(*DiarySnapshotId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Diary_Upload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiarySnapshot)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DiaryServer).Upload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Diary/Upload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DiaryServer).Upload(ctx, req.(*DiarySnapshot))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Diary_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Diary",
 	HandlerType: (*DiaryServer)(nil),
@@ -402,12 +652,28 @@ var _Diary_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Diary_List_Handler,
 		},
 		{
+			MethodName: "Next",
+			Handler:    _Diary_Next_Handler,
+		},
+		{
+			MethodName: "Previous",
+			Handler:    _Diary_Previous_Handler,
+		},
+		{
 			MethodName: "Save",
 			Handler:    _Diary_Save_Handler,
 		},
 		{
 			MethodName: "Put",
 			Handler:    _Diary_Put_Handler,
+		},
+		{
+			MethodName: "Download",
+			Handler:    _Diary_Download_Handler,
+		},
+		{
+			MethodName: "Upload",
+			Handler:    _Diary_Upload_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
