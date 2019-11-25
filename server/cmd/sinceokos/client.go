@@ -27,7 +27,7 @@ func main() {
 	// }
 	// fmt.Printf("response::%#v \n", r)
 
-	dc := &diary.DiaryId{Id: "5dd5212da74781000714ed37"}
+	dc := &diary.DiaryId{Id: "5ddb144a66385e000799dbc0"}
 	one, err := client.Get(context.TODO(), dc)
 	if err != nil {
 		fmt.Printf("error::%#v \n", err)
@@ -35,6 +35,22 @@ func main() {
 	}
 
 	fmt.Printf("one:%#v \n", one)
+
+	next, err := client.Next(context.TODO(), dc)
+	if err != nil {
+		fmt.Printf("error::%#v \n", err)
+		return
+	}
+
+	fmt.Printf("next:%#v \n", next)
+
+	previous, err := client.Previous(context.TODO(), dc)
+	if err != nil {
+		fmt.Printf("error::%#v \n", err)
+		return
+	}
+
+	fmt.Printf("previous:%#v \n", previous)
 
 	list, err := client.List(context.TODO(), &empty.Empty{})
 	if err != nil {

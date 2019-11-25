@@ -8,14 +8,15 @@ import (
 	"github.com/pinkikki/sinceokos/server/app/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Diary struct {
-	Id        primitive.ObjectID   `json:"_id" bson:"_id,omitempty"` 
-	Title     string    `json:"title"`
-	Text      string    `json:"text"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Id        primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
+	Title     string             `json:"title"`
+	Text      string             `json:"text"`
+	CreatedAt time.Time          `json:"created_at"`
+	UpdatedAt time.Time          `json:"updated_at"`
 }
 
 func Find(id string) (*Diary, error) {
@@ -57,6 +58,38 @@ func FindAll() ([]*Diary, error) {
 
 	return diaries, nil
 
+}
+
+func FindNext(id string) (*Diary, error) {
+	var diary *Diary
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	collection := mongo.Database("sinceokos").Collection("diary")
+	options := options.FindOne()
+	options.SetSort(bson.M{"_id": 1})
+
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	err := collection.FindOne(ctx, bson.M{"_id": bson.M{"$gt": objectID}}, options).Decode(&diary)
+	if err != nil {
+		return nil, err
+	}
+
+	return diary, nil
+}
+
+func FindPrevious(id string) (*Diary, error) {
+	var diary *Diary
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	collection := mongo.Database("sinceokos").Collection("diary")
+	options := options.FindOne()
+	options.SetSort(bson.M{"_id": -1})
+
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	err := collection.FindOne(ctx, bson.M{"_id": bson.M{"$lt": objectID}}, options).Decode(&diary)
+	if err != nil {
+		return nil, err
+	}
+
+	return diary, nil
 }
 
 func Insert(diary *Diary) error {
