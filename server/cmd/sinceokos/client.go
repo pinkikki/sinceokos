@@ -18,7 +18,7 @@ func main() {
 	defer conn.Close()
 
 	client := diary.NewDiaryClient(conn)
-	// saveRequest := &diary.DiaryRequest{No: "10002", Text: "diary2"}
+	// saveRequest := &diary.DiaryRequest{Title: "よく泣きます3", Text: "なかなか泣き止みません3"}
 	// r, err := client.Save(context.TODO(), saveRequest)
 
 	// if err != nil {
@@ -27,7 +27,7 @@ func main() {
 	// }
 	// fmt.Printf("response::%#v \n", r)
 
-	dc := &diary.DiaryId{Id: "5ddb144a66385e000799dbc0"}
+	dc := &diary.DiaryId{Id: "5ddbb16e0ee08a029d02d23e"}
 	one, err := client.Get(context.TODO(), dc)
 	if err != nil {
 		fmt.Printf("error::%#v \n", err)
@@ -59,13 +59,13 @@ func main() {
 	}
 	fmt.Printf("list:%#v \n", list)
 
-	// putRequest := &diary.DiaryRequest{No: "10002", Text: "diary20"}
-	// ur, err := client.Put(context.TODO(), putRequest)
+	putRequest := &diary.DiaryRequest{Id: "5ddbb13d0ee08a029d02d23d", Title: "更新", Text: "これは更新しましたよ"}
+	ur, err := client.Put(context.TODO(), putRequest)
 
-	// if err != nil {
-	// 	fmt.Printf("error::%#v \n", err)
-	// 	return
-	// }
-	// fmt.Printf("response::%#v \n", ur)
+	if err != nil {
+		fmt.Printf("error::%#v \n", err)
+		return
+	}
+	fmt.Printf("response::%#v \n", ur)
 
 }

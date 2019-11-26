@@ -25,7 +25,7 @@ func (s *DiaryService) Get(ctx context.Context, d *DiaryId) (*DiaryResource, err
 	}
 
 	return &DiaryResource{
-		Id:        diary.Id.Hex(),
+		Id:        diary.Id,
 		Title:     diary.Title,
 		Text:      diary.Text,
 		CreatedAt: createdAt,
@@ -54,7 +54,7 @@ func (s *DiaryService) List(context.Context, *empty.Empty) (*DiaryResources, err
 		diaryResources = append(
 			diaryResources,
 			&DiaryResource{
-				Id:        diary.Id.Hex(),
+				Id:        diary.Id,
 				Title:     diary.Title,
 				Text:      diary.Text,
 				CreatedAt: createdAt,
@@ -71,7 +71,7 @@ func (s *DiaryService) Save(ctx context.Context, dr *DiaryRequest) (*empty.Empty
 }
 
 func (s *DiaryService) Put(ctx context.Context, dr *DiaryRequest) (*empty.Empty, error) {
-	err := Insert(&Diary{Title: dr.Title, Text: dr.Text})
+	err := Update(&Diary{Id: dr.Id, Title: dr.Title, Text: dr.Text})
 	return &empty.Empty{}, err
 }
 
@@ -91,7 +91,7 @@ func (s *DiaryService) Next(ctx context.Context, d *DiaryId) (*DiaryResource, er
 	}
 
 	return &DiaryResource{
-		Id:        diary.Id.Hex(),
+		Id:        diary.Id,
 		Title:     diary.Title,
 		Text:      diary.Text,
 		CreatedAt: createdAt,
@@ -115,7 +115,7 @@ func (s *DiaryService) Previous(ctx context.Context, d *DiaryId) (*DiaryResource
 	}
 
 	return &DiaryResource{
-		Id:        diary.Id.Hex(),
+		Id:        diary.Id,
 		Title:     diary.Title,
 		Text:      diary.Text,
 		CreatedAt: createdAt,
