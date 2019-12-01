@@ -3,8 +3,10 @@ package diary
 import (
 	context "context"
 	fmt "fmt"
+	"os"
 	"time"
 
+	"github.com/pinkikki/sinceokos/server/app/file"
 	"github.com/pinkikki/sinceokos/server/app/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -131,6 +133,14 @@ func Update(diary *Diary) error {
 	id := res.UpsertedID
 	fmt.Printf("%v", id)
 	return nil
+}
+
+func Read(dsi *DiarySnapshotId) (*os.File, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	return file.Read(wd, dsi.Id)
 }
 
 func toDiary(bd *BsonDiary) *Diary {

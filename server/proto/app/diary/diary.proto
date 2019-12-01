@@ -10,7 +10,7 @@ service Diary {
   rpc Previous (DiaryId) returns (DiaryResource) {}
   rpc Save (DiaryRequest) returns (google.protobuf.Empty) {}
   rpc Put (DiaryRequest) returns (google.protobuf.Empty) {}
-  rpc Download (DiarySnapshotId) returns (DiarySnapshot) {}
+  rpc Download (DiarySnapshotId) returns (stream DiarySnapshot) {}
   rpc Upload (DiarySnapshot) returns (google.protobuf.Empty) {}
 }
 message DiaryRequest {

@@ -23,7 +23,7 @@ class DiarySearchDelegate extends SearchDelegate<String> {
           var diary = filtered[index];
           return ListTile(
               onTap: () {
-                close(context, diary.no);
+                close(context, diary.id);
               },
               title: Column(
                 children: <Widget>[
@@ -37,7 +37,7 @@ class DiarySearchDelegate extends SearchDelegate<String> {
                             padding: const EdgeInsets.fromLTRB(
                                 12.0, 12.0, 12.0, 6.0),
                             child: Text(
-                              diary.no,
+                              diary.id,
                               style: TextStyle(
                                   fontSize: 22.0, fontWeight: FontWeight.bold),
                             ),
@@ -65,7 +65,7 @@ class DiarySearchDelegate extends SearchDelegate<String> {
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.star_border,
-                                size: 35.0,
+                                size: 3.0,
                                 color: Colors.grey,
                               ),
                             ),

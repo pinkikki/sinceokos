@@ -9,10 +9,13 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'google/protobuf/timestamp.pb.dart' as $2;
+
 class DiaryRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiaryRequest', createEmptyInstance: create)
-    ..aOS(1, 'no')
-    ..aOS(2, 'text')
+    ..aOS(1, 'id')
+    ..aOS(2, 'title')
+    ..aOS(3, 'text')
     ..hasRequiredFields = false
   ;
 
@@ -30,21 +33,29 @@ class DiaryRequest extends $pb.GeneratedMessage {
   static DiaryRequest getDefault() => _defaultInstance ??= create()..freeze();
   static DiaryRequest _defaultInstance;
 
-  $core.String get no => $_getS(0, '');
-  set no($core.String v) { $_setString(0, v); }
-  $core.bool hasNo() => $_has(0);
-  void clearNo() => clearField(1);
+  $core.String get id => $_getS(0, '');
+  set id($core.String v) { $_setString(0, v); }
+  $core.bool hasId() => $_has(0);
+  void clearId() => clearField(1);
 
-  $core.String get text => $_getS(1, '');
-  set text($core.String v) { $_setString(1, v); }
-  $core.bool hasText() => $_has(1);
-  void clearText() => clearField(2);
+  $core.String get title => $_getS(1, '');
+  set title($core.String v) { $_setString(1, v); }
+  $core.bool hasTitle() => $_has(1);
+  void clearTitle() => clearField(2);
+
+  $core.String get text => $_getS(2, '');
+  set text($core.String v) { $_setString(2, v); }
+  $core.bool hasText() => $_has(2);
+  void clearText() => clearField(3);
 }
 
 class DiaryResource extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiaryResource', createEmptyInstance: create)
-    ..aOS(1, 'no')
-    ..aOS(2, 'text')
+    ..aOS(1, 'id')
+    ..aOS(2, 'title')
+    ..aOS(3, 'text')
+    ..a<$2.Timestamp>(4, 'createdAt', $pb.PbFieldType.OM, protoName: 'createdAt', defaultOrMaker: $2.Timestamp.getDefault, subBuilder: $2.Timestamp.create)
+    ..a<$2.Timestamp>(5, 'updatedAt', $pb.PbFieldType.OM, protoName: 'updatedAt', defaultOrMaker: $2.Timestamp.getDefault, subBuilder: $2.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -62,15 +73,30 @@ class DiaryResource extends $pb.GeneratedMessage {
   static DiaryResource getDefault() => _defaultInstance ??= create()..freeze();
   static DiaryResource _defaultInstance;
 
-  $core.String get no => $_getS(0, '');
-  set no($core.String v) { $_setString(0, v); }
-  $core.bool hasNo() => $_has(0);
-  void clearNo() => clearField(1);
+  $core.String get id => $_getS(0, '');
+  set id($core.String v) { $_setString(0, v); }
+  $core.bool hasId() => $_has(0);
+  void clearId() => clearField(1);
 
-  $core.String get text => $_getS(1, '');
-  set text($core.String v) { $_setString(1, v); }
-  $core.bool hasText() => $_has(1);
-  void clearText() => clearField(2);
+  $core.String get title => $_getS(1, '');
+  set title($core.String v) { $_setString(1, v); }
+  $core.bool hasTitle() => $_has(1);
+  void clearTitle() => clearField(2);
+
+  $core.String get text => $_getS(2, '');
+  set text($core.String v) { $_setString(2, v); }
+  $core.bool hasText() => $_has(2);
+  void clearText() => clearField(3);
+
+  $2.Timestamp get createdAt => $_getN(3);
+  set createdAt($2.Timestamp v) { setField(4, v); }
+  $core.bool hasCreatedAt() => $_has(3);
+  void clearCreatedAt() => clearField(4);
+
+  $2.Timestamp get updatedAt => $_getN(4);
+  set updatedAt($2.Timestamp v) { setField(5, v); }
+  $core.bool hasUpdatedAt() => $_has(4);
+  void clearUpdatedAt() => clearField(5);
 }
 
 class DiaryResources extends $pb.GeneratedMessage {
@@ -96,29 +122,81 @@ class DiaryResources extends $pb.GeneratedMessage {
   $core.List<DiaryResource> get diaries => $_getList(0);
 }
 
-class DiaryCriteria extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiaryCriteria', createEmptyInstance: create)
-    ..aOS(1, 'no')
+class DiaryId extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiaryId', createEmptyInstance: create)
+    ..aOS(1, 'id')
     ..hasRequiredFields = false
   ;
 
-  DiaryCriteria._() : super();
-  factory DiaryCriteria() => create();
-  factory DiaryCriteria.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory DiaryCriteria.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  DiaryCriteria clone() => DiaryCriteria()..mergeFromMessage(this);
-  DiaryCriteria copyWith(void Function(DiaryCriteria) updates) => super.copyWith((message) => updates(message as DiaryCriteria));
+  DiaryId._() : super();
+  factory DiaryId() => create();
+  factory DiaryId.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DiaryId.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  DiaryId clone() => DiaryId()..mergeFromMessage(this);
+  DiaryId copyWith(void Function(DiaryId) updates) => super.copyWith((message) => updates(message as DiaryId));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static DiaryCriteria create() => DiaryCriteria._();
-  DiaryCriteria createEmptyInstance() => create();
-  static $pb.PbList<DiaryCriteria> createRepeated() => $pb.PbList<DiaryCriteria>();
-  static DiaryCriteria getDefault() => _defaultInstance ??= create()..freeze();
-  static DiaryCriteria _defaultInstance;
+  static DiaryId create() => DiaryId._();
+  DiaryId createEmptyInstance() => create();
+  static $pb.PbList<DiaryId> createRepeated() => $pb.PbList<DiaryId>();
+  static DiaryId getDefault() => _defaultInstance ??= create()..freeze();
+  static DiaryId _defaultInstance;
 
-  $core.String get no => $_getS(0, '');
-  set no($core.String v) { $_setString(0, v); }
-  $core.bool hasNo() => $_has(0);
-  void clearNo() => clearField(1);
+  $core.String get id => $_getS(0, '');
+  set id($core.String v) { $_setString(0, v); }
+  $core.bool hasId() => $_has(0);
+  void clearId() => clearField(1);
+}
+
+class DiarySnapshot extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiarySnapshot', createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, 'snapshot', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  DiarySnapshot._() : super();
+  factory DiarySnapshot() => create();
+  factory DiarySnapshot.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DiarySnapshot.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  DiarySnapshot clone() => DiarySnapshot()..mergeFromMessage(this);
+  DiarySnapshot copyWith(void Function(DiarySnapshot) updates) => super.copyWith((message) => updates(message as DiarySnapshot));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DiarySnapshot create() => DiarySnapshot._();
+  DiarySnapshot createEmptyInstance() => create();
+  static $pb.PbList<DiarySnapshot> createRepeated() => $pb.PbList<DiarySnapshot>();
+  static DiarySnapshot getDefault() => _defaultInstance ??= create()..freeze();
+  static DiarySnapshot _defaultInstance;
+
+  $core.List<$core.int> get snapshot => $_getN(0);
+  set snapshot($core.List<$core.int> v) { $_setBytes(0, v); }
+  $core.bool hasSnapshot() => $_has(0);
+  void clearSnapshot() => clearField(1);
+}
+
+class DiarySnapshotId extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiarySnapshotId', createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..hasRequiredFields = false
+  ;
+
+  DiarySnapshotId._() : super();
+  factory DiarySnapshotId() => create();
+  factory DiarySnapshotId.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DiarySnapshotId.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  DiarySnapshotId clone() => DiarySnapshotId()..mergeFromMessage(this);
+  DiarySnapshotId copyWith(void Function(DiarySnapshotId) updates) => super.copyWith((message) => updates(message as DiarySnapshotId));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DiarySnapshotId create() => DiarySnapshotId._();
+  DiarySnapshotId createEmptyInstance() => create();
+  static $pb.PbList<DiarySnapshotId> createRepeated() => $pb.PbList<DiarySnapshotId>();
+  static DiarySnapshotId getDefault() => _defaultInstance ??= create()..freeze();
+  static DiarySnapshotId _defaultInstance;
+
+  $core.String get id => $_getS(0, '');
+  set id($core.String v) { $_setString(0, v); }
+  $core.bool hasId() => $_has(0);
+  void clearId() => clearField(1);
 }
 

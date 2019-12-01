@@ -2,6 +2,7 @@ package diary
 
 import (
 	context "context"
+	"io"
 
 	"github.com/golang/protobuf/ptypes"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -123,8 +124,31 @@ func (s *DiaryService) Previous(ctx context.Context, d *DiaryId) (*DiaryResource
 	}, nil
 }
 
-func (s *DiaryService) Download(ctx context.Context, d *DiarySnapshotId) (*DiarySnapshot, error) {
-	return nil, nil
+func (s *DiaryService) Download(req *DiarySnapshotId, srv Diary_DownloadServer) error {
+	var r io.ReadCloser
+	r, err := Read(req)
+	if err != nil {
+		return err
+	}
+	defer r.Close()
+
+	var b [4096 * 1000]byte
+	for {
+		n, err := r.Read(b[:])
+		if err != nil {
+			if err != io.EOF {
+				return err
+			}
+			break
+		}
+		err = srv.Send(&DiarySnapshot{
+			Snapshot: b[:n],
+		})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (s *DiaryService) Upload(ctx context.Context, d *DiarySnapshot) (*empty.Empty, error) {
