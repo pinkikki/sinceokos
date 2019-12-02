@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:sinceokos_ui/pages/register.dart';
 import 'package:sinceokos_ui/pages/search.dart';
 import 'package:sinceokos_ui/port/diary.pb.dart';
 import 'package:sinceokos_ui/port/diary_service.dart';
@@ -89,6 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
               );
               _get(selected);
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DiaryRegisterPage())),
           )
         ],
       ),
