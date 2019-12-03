@@ -154,17 +154,17 @@ func toDiary(bd *BsonDiary) *Diary {
 }
 
 func toBsonDiary(d *Diary) (*BsonDiary, error) {
-	id, err := primitive.ObjectIDFromHex(d.Id)
-	if err != nil {
-		return nil, err
+	bd := &BsonDiary{
+		Title:     d.Title,
+		Text:      d.Text,
+		CreatedAt: d.CreatedAt,
+		UpdatedAt: d.UpdatedAt,
 	}
 
-	return &BsonDiary{
-			Id:        id,
-			Title:     d.Title,
-			Text:      d.Text,
-			CreatedAt: d.CreatedAt,
-			UpdatedAt: d.UpdatedAt,
-		},
-		nil
+	id, err := primitive.ObjectIDFromHex(d.Id)
+	if err == nil {
+		bd.Id = id
+	}
+
+	return bd, nil
 }
