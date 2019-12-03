@@ -16,6 +16,14 @@ class DiaryService {
     return await client.list(Empty.create());
   }
 
+  static Future<Empty> save(String title, String text) async {
+    var client = DiaryClient(GrpcClientSingleton().client);
+    var request = DiaryRequest.create();
+    request.title = title;
+    request.text = text;
+    return await client.save(request);
+  }
+
   static ResponseStream<DiarySnapshot> download(String id) {
     var client = DiaryClient(GrpcClientSingleton().client);
     var dsi = DiarySnapshotId.create();
