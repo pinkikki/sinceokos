@@ -128,7 +128,7 @@ func (s *DiaryService) Download(req *DiarySnapshotId, srv Diary_DownloadServer) 
 	var r io.ReadCloser
 	r, err := Read(req)
 	if err != nil {
-		return err
+		return nil
 	}
 	defer r.Close()
 

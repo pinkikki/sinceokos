@@ -30,4 +30,18 @@ class DiaryService {
     dsi.id = id;
     return client.download(dsi);
   }
+
+  static Future<DiaryResource> previous(String id) async {
+    var client = DiaryClient(GrpcClientSingleton().client);
+    var diaryId = DiaryId.create();
+    diaryId.id = id;
+    return await client.previous(diaryId);
+  }
+
+  static Future<DiaryResource> next(String id) async {
+    var client = DiaryClient(GrpcClientSingleton().client);
+    var diaryId = DiaryId.create();
+    diaryId.id = id;
+    return await client.next(diaryId);
+  }
 }

@@ -5,10 +5,6 @@ import 'package:sinceokos_ui/port/diary_service.dart';
 class DiarySearchDelegate extends SearchDelegate<String> {
   List<DiaryResource> _diaries = List();
 
-  DiarySearchDelegate() {
-    _get().then((diaries) => _diaries = diaries);
-  }
-
   Future<List<DiaryResource>> _get() async {
     var response = await DiaryService.list();
     return response.diaries;
@@ -109,6 +105,7 @@ class DiarySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    _get().then((diaries) => _diaries = diaries);
     return Center(
       child: Text(
         'タイトルを入力してください',

@@ -14,6 +14,7 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
 
   Future<void> _save() async {
     await DiaryService.save(_title, _text);
+    Navigator.pop(context);
   }
 
   @override
@@ -21,6 +22,17 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Cokos日記登録"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  _save();
+                }
+              },
+            )
+          ],
         ),
         body: Form(
             key: _formKey,
@@ -44,15 +56,6 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
                             alignLabelWithHint: true,
                             labelText: "今日のできごと入力してね"),
                       )),
-                  RaisedButton(
-                    child: Text("save"),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        _save();
-                      }
-                    },
-                  )
                 ],
               )
             ])));

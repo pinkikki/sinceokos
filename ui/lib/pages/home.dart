@@ -19,12 +19,13 @@ class _MyHomePageState extends State<MyHomePage> {
   DiarySearchDelegate _delegate = new DiarySearchDelegate();
   DiaryResource _currentDiary;
   Uint8List _images;
+  bool _isPreviousDisabled = true;
+  bool _isNextDisabled = true;
 
   Future<void> _get(selected) async {
-    await _download(selected);
-    var response = await DiaryService.get(selected);
+    var response = DiaryService.get(selected);
     setState(() {
-      _currentDiary = response;
+      _onDiaryResource(response);
     });
   }
 
@@ -32,15 +33,42 @@ class _MyHomePageState extends State<MyHomePage> {
     var response = DiaryService.download(selected);
     setState(() {
       var bytes = List<int>();
-      response.forEach((s) {
-        bytes.addAll(s.snapshot);
-      }).then((t) => _images = Uint8List.fromList(bytes));
+      response
+          .forEach((s) {
+            bytes.addAll(s.snapshot);
+          })
+          .then((t) => _images = Uint8List.fromList(bytes))
+          .catchError((e) => _images = null);
     });
   }
 
-  Future<void> _next() async {}
+  Future<void> _previous() async {
+    var response = DiaryService.previous(_currentDiary.id);
+    setState(() {
+      _onDiaryResource(response);
+    });
+  }
 
-  Future<void> _previous() async {}
+  Future<void> _next() async {
+    var response = DiaryService.next(_currentDiary.id);
+    setState(() {
+      _onDiaryResource(response);
+    });
+  }
+
+  Future<void> _onDiaryResource(Future<DiaryResource> response) {
+    response.then((v) {
+      _download(v.id);
+      _currentDiary = v;
+      _isPreviousDisabled = false;
+      _isNextDisabled = false;
+    }).catchError((e) {
+      _currentDiary = null;
+      _images = null;
+      _isPreviousDisabled = true;
+      _isNextDisabled = true;
+    });
+  }
 
   Widget buildDiary() {
     if (_currentDiary == null) {
@@ -68,11 +96,18 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.all(3),
           child: Row(children: <Widget>[Text(_currentDiary.text)]),
         ),
-        Container(
-          child: Image.memory(_images),
-        )
+        buildImage()
       ]))
     ]);
+  }
+
+  Widget buildImage() {
+    debugPrint(_images.lengthInBytes.toString());
+    if (_images != null && _images.isNotEmpty) {
+      return Container(child: Image.memory(_images));
+    }
+
+    return Container();
   }
 
   @override
@@ -88,6 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 context: context,
                 delegate: _delegate,
               );
+              _currentDiary = null;
+              _images = null;
               _get(selected);
             },
           ),
@@ -103,7 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
         FloatingActionButton(
           heroTag: 'previous',
-          onPressed: _previous,
+          onPressed: _isPreviousDisabled ? () {} : _previous,
+          backgroundColor: _isPreviousDisabled ? Colors.blueGrey : Colors.teal,
           tooltip: 'Previous',
           child: Icon(Icons.navigate_before),
         ),
@@ -111,7 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: EdgeInsets.only(left: 5),
           child: FloatingActionButton(
             heroTag: 'next',
-            onPressed: _next,
+            onPressed: _isNextDisabled ? () {} : _next,
+            backgroundColor: _isNextDisabled ? Colors.blueGrey : Colors.teal,
             tooltip: 'Next',
             child: Icon(Icons.navigate_next),
           ),
