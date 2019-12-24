@@ -22,6 +22,8 @@ const DiaryResource$json = const {
     const {'1': 'text', '3': 3, '4': 1, '5': 9, '10': 'text'},
     const {'1': 'createdAt', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'updatedAt', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updatedAt'},
+    const {'1': 'previous', '3': 6, '4': 1, '5': 9, '10': 'previous'},
+    const {'1': 'next', '3': 7, '4': 1, '5': 9, '10': 'next'},
   ],
 };
 

@@ -11,7 +11,7 @@ service Diary {
   rpc Save (DiaryRequest) returns (google.protobuf.Empty) {}
   rpc Put (DiaryRequest) returns (google.protobuf.Empty) {}
   rpc Download (DiarySnapshotId) returns (stream DiarySnapshot) {}
-  rpc Upload (DiarySnapshot) returns (google.protobuf.Empty) {}
+  rpc Upload (stream DiarySnapshot) returns (google.protobuf.Empty) {}
 }
 message DiaryRequest {
   string id = 1;
@@ -24,6 +24,8 @@ message DiaryResource {
   string text = 3;
   google.protobuf.Timestamp createdAt = 4;
   google.protobuf.Timestamp updatedAt = 5;
+  string previous = 6;
+  string next = 7;
 }
 message DiaryResources {
   repeated DiaryResource diaries = 1;

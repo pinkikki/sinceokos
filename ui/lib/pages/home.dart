@@ -60,8 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
     response.then((v) {
       _download(v.id);
       _currentDiary = v;
-      _isPreviousDisabled = false;
-      _isNextDisabled = false;
+      var p = v.previous;
+      var n = v.next;
+      debugPrint("previous=[$p]");
+      debugPrint("next=[$n]");
+      _isPreviousDisabled  = (v.previous == null || v.previous.isEmpty);
+      _isNextDisabled  = (v.next == null || v.next.isEmpty);
     }).catchError((e) {
       _currentDiary = null;
       _images = null;

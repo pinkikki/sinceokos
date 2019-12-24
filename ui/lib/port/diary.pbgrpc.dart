@@ -11,7 +11,7 @@ import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
 import 'diary.pb.dart' as $0;
-import 'google/protobuf/empty.pb.dart' as $1;
+import './google/protobuf/empty.pb.dart' as $1;
 export 'diary.pb.dart';
 
 class DiaryClient extends $grpc.Client {
@@ -101,10 +101,9 @@ class DiaryClient extends $grpc.Client {
     return $grpc.ResponseStream(call);
   }
 
-  $grpc.ResponseFuture<$1.Empty> upload($0.DiarySnapshot request,
+  $grpc.ResponseFuture<$1.Empty> upload($async.Stream<$0.DiarySnapshot> request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$upload, $async.Stream.fromIterable([request]),
-        options: options);
+    final call = $createCall(_$upload, request, options: options);
     return $grpc.ResponseFuture(call);
   }
 }
@@ -164,8 +163,8 @@ abstract class DiaryServiceBase extends $grpc.Service {
         ($0.DiarySnapshot value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.DiarySnapshot, $1.Empty>(
         'Upload',
-        upload_Pre,
-        false,
+        upload,
+        true,
         false,
         ($core.List<$core.int> value) => $0.DiarySnapshot.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
@@ -206,11 +205,6 @@ abstract class DiaryServiceBase extends $grpc.Service {
     yield* download(call, await request);
   }
 
-  $async.Future<$1.Empty> upload_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.DiarySnapshot> request) async {
-    return upload(call, await request);
-  }
-
   $async.Future<$0.DiaryResource> get(
       $grpc.ServiceCall call, $0.DiaryId request);
   $async.Future<$0.DiaryResources> list(
@@ -224,5 +218,5 @@ abstract class DiaryServiceBase extends $grpc.Service {
   $async.Stream<$0.DiarySnapshot> download(
       $grpc.ServiceCall call, $0.DiarySnapshotId request);
   $async.Future<$1.Empty> upload(
-      $grpc.ServiceCall call, $0.DiarySnapshot request);
+      $grpc.ServiceCall call, $async.Stream<$0.DiarySnapshot> request);
 }

@@ -41,5 +41,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To register in the diary</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To register in the diary</string>
 </dict>
 </plist>

@@ -8,4 +8,6 @@ type Diary struct {
 	Text      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Previous  string
+	Next      string
 }

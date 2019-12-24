@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:grpc/grpc.dart';
 import 'package:sinceokos_ui/port/diary.pbgrpc.dart';
 import 'package:sinceokos_ui/port/google/protobuf/empty.pb.dart';
@@ -29,6 +33,25 @@ class DiaryService {
     var dsi = DiarySnapshotId.create();
     dsi.id = id;
     return client.download(dsi);
+  }
+
+  static Future<Void> upload(File file) async {
+    var client = DiaryClient(GrpcClientSingleton().client);
+    var ds = DiarySnapshot.create();
+    client.upload(_read(file));
+  }
+
+  static Stream<DiarySnapshot> _read(File file) async* {
+    yield* file.openRead().transform(_toDiarySnapshot());
+  }
+
+  static StreamTransformer<List<int>, DiarySnapshot> _toDiarySnapshot() {
+    return StreamTransformer<List<int>, DiarySnapshot>.fromHandlers(
+        handleData: (value, sink) {
+      var ds = DiarySnapshot.create();
+      ds.snapshot = value;
+      sink.add(ds);
+    });
   }
 
   static Future<DiaryResource> previous(String id) async {

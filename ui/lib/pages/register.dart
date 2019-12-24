@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sinceokos_ui/port/diary_service.dart';
 
 class DiaryRegisterPage extends StatefulWidget {
@@ -15,6 +16,29 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
   Future<void> _save() async {
     await DiaryService.save(_title, _text);
     Navigator.pop(context);
+  }
+
+  Future getImage(ImageSource imageSource) async {
+    var image = await ImagePicker.pickImage(source: imageSource);
+    DiaryService.upload(image);
+  }
+
+  Widget buildImageSelector(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.photo_library),
+          title: Text("gallery"),
+          onTap: () => getImage(ImageSource.gallery),
+        ),
+        ListTile(
+          leading: Icon(Icons.camera_alt),
+          title: Text("camera"),
+          onTap: () => getImage(ImageSource.camera),
+        ),
+      ],
+    );
   }
 
   @override
@@ -38,6 +62,7 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
             key: _formKey,
             child: ListView(children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
@@ -46,6 +71,14 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
                         validator: (value) => value.isEmpty ? "入力して〜" : null,
                         decoration: InputDecoration(labelText: "タイトル入力してね"),
                       )),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: IconButton(
+                      icon: const Icon(Icons.camera_alt),
+                      onPressed: () => showModalBottomSheet(
+                          context: context, builder: buildImageSelector),
+                    ),
+                  ),
                   Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
                       child: TextFormField(

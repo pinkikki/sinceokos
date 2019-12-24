@@ -7,9 +7,10 @@ import (
 	"time"
 
 	"github.com/pinkikki/sinceokos/server/app/file"
-	"github.com/pinkikki/sinceokos/server/app/mongo"
+	mongodb "github.com/pinkikki/sinceokos/server/app/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -22,76 +23,78 @@ type BsonDiary struct {
 }
 
 func Find(id string) (*Diary, error) {
-	var bd *BsonDiary
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
+	collection := mongodb.Database("sinceokos").Collection("diary")
 
+	var current *BsonDiary
+	var previous *BsonDiary
+	var next *BsonDiary
 	objectID, _ := primitive.ObjectIDFromHex(id)
-	err := collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&bd)
+	err := collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&current)
 	if err != nil {
 		return nil, err
 	}
+	diary := toDiary(current)
 
-	return toDiary(bd), nil
+	pops := options.FindOne().SetSort(bson.M{"_id": -1})
+	err = collection.FindOne(ctx, bson.M{"_id": bson.M{"$lt": objectID}}, pops).Decode(&previous)
+	if err != nil {
+		fmt.Printf("Falied to find previous diary. err=[%v]", err)
+	} else {
+		diary.Previous = previous.Id.Hex()
+	}
+
+	nops := options.FindOne().SetSort(bson.M{"_id": 1})
+	err = collection.FindOne(ctx, bson.M{"_id": bson.M{"$gt": objectID}}, nops).Decode(&next)
+	if err != nil {
+		fmt.Printf("Falied to find next diary. err=[%v]", err)
+	} else {
+		diary.Next = next.Id.Hex()
+	}
+
+	return diary, nil
 }
 
 func FindAll() ([]*Diary, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
-	cur, err := collection.Find(ctx, bson.D{})
-	if err != nil {
-		return nil, err
-	}
-
-	diaries := []*Diary{}
-	for cur.Next(ctx) {
-		var bd *BsonDiary
-		err = cur.Decode(&bd)
-		if err != nil {
-			return nil, err
-		}
-		diaries = append(diaries, toDiary(bd))
-	}
-	if err = cur.Err(); err != nil {
-		return nil, err
-	}
-
-	cur.Close(ctx)
-
-	return diaries, nil
-
+	collection := mongodb.Database("sinceokos").Collection("diary")
+	return find(ctx, collection, bson.D{}, true)
 }
 
 func FindNext(id string) (*Diary, error) {
-	var bd *BsonDiary
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
-	options := options.FindOne()
+	collection := mongodb.Database("sinceokos").Collection("diary")
+	options := options.Find()
+	options.SetLimit(3)
 	options.SetSort(bson.M{"_id": 1})
-
 	objectID, _ := primitive.ObjectIDFromHex(id)
-	err := collection.FindOne(ctx, bson.M{"_id": bson.M{"$gt": objectID}}, options).Decode(&bd)
-	if err != nil {
-		return nil, err
+	diaries, err := find(ctx, collection, bson.M{"_id": bson.M{"$gte": objectID}}, true, options)
+	var diary *Diary
+	if 1 < len(diaries) {
+		diary = diaries[1]
+	} else {
+		diary = &Diary{}
 	}
 
-	return toDiary(bd), nil
+	return diary, err
 }
 
 func FindPrevious(id string) (*Diary, error) {
-	var bd *BsonDiary
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
-	options := options.FindOne()
+	collection := mongodb.Database("sinceokos").Collection("diary")
+	options := options.Find()
+	options.SetLimit(3)
 	options.SetSort(bson.M{"_id": -1})
-
 	objectID, _ := primitive.ObjectIDFromHex(id)
-	err := collection.FindOne(ctx, bson.M{"_id": bson.M{"$lt": objectID}}, options).Decode(&bd)
-	if err != nil {
-		return nil, err
+	diaries, err := find(ctx, collection, bson.M{"_id": bson.M{"$lte": objectID}}, false, options)
+	var diary *Diary
+	if 1 < len(diaries) {
+		diary = diaries[1]
+	} else {
+		diary = &Diary{}
 	}
 
-	return toDiary(bd), nil
+	return diary, err
 }
 
 func Insert(diary *Diary) error {
@@ -104,7 +107,7 @@ func Insert(diary *Diary) error {
 	diary.CreatedAt = now
 	diary.UpdatedAt = now
 	ctx, _ := context.WithTimeout(context.Background(), 50*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
+	collection := mongodb.Database("sinceokos").Collection("diary")
 	res, err := collection.InsertOne(ctx, bd)
 	if err != nil {
 		fmt.Printf("%v", err)
@@ -123,7 +126,7 @@ func Update(diary *Diary) error {
 	}
 	bd.UpdatedAt = time.Now()
 	ctx, _ := context.WithTimeout(context.Background(), 50*time.Second)
-	collection := mongo.Database("sinceokos").Collection("diary")
+	collection := mongodb.Database("sinceokos").Collection("diary")
 
 	res, err := collection.UpdateOne(ctx, bson.M{"_id": bd.Id}, bson.M{"$set": bson.M{"title": bd.Title, "text": bd.Text, "updated_at": bd.UpdatedAt}})
 	if err != nil {
@@ -141,6 +144,51 @@ func Read(dsi *DiarySnapshotId) (*os.File, error) {
 		return nil, err
 	}
 	return file.Read(wd, dsi.Id)
+}
+
+func GetWriter() (*os.File, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	return file.Create(wd, "sample")
+}
+
+func find(ctx context.Context, collection *mongo.Collection, filter interface{}, asc bool,
+	opts ...*options.FindOptions) ([]*Diary, error) {
+	cur, err := collection.Find(ctx, filter, opts...)
+	defer cur.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	diaries := []*Diary{}
+	var tmp *BsonDiary
+	for cur.Next(ctx) {
+		var bd *BsonDiary
+		err = cur.Decode(&bd)
+		if err != nil {
+			return nil, err
+		}
+		d := toDiary(bd)
+		if tmp != nil {
+			last := diaries[len(diaries)-1]
+			if asc {
+				d.Previous = tmp.Id.Hex()
+				last.Next = d.Id
+			} else {
+				d.Next = tmp.Id.Hex()
+				last.Previous = d.Id
+			}
+		}
+		tmp = bd
+		diaries = append(diaries, d)
+	}
+	if err = cur.Err(); err != nil {
+		return nil, err
+	}
+
+	return diaries, nil
 }
 
 func toDiary(bd *BsonDiary) *Diary {

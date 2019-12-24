@@ -16,3 +16,15 @@ func Read(dir string, name string) (*os.File, error) {
 	}
 	return f, nil
 }
+
+func Create(dir string, name string) (*os.File, error) {
+	err := os.MkdirAll(dir, 0775)
+	if err != nil {
+		return nil, err
+	}
+	f, err := os.Create(filepath.Join(dir, name))
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
+}

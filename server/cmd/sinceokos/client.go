@@ -34,7 +34,9 @@ func main() {
 		return
 	}
 
+	fmt.Println("★★★★Get Start★★★★★★★★")
 	fmt.Printf("one:%#v \n", one)
+	fmt.Println("★★★★Get Start★★★★★★★★")
 
 	next, err := client.Next(context.TODO(), dc)
 	if err != nil {
@@ -42,7 +44,9 @@ func main() {
 		return
 	}
 
+	fmt.Println("★★★★NEXT Start★★★★★★★★")
 	fmt.Printf("next:%#v \n", next)
+	fmt.Println("★★★★NEXT End★★★★★★★★")
 
 	previous, err := client.Previous(context.TODO(), dc)
 	if err != nil {
@@ -57,7 +61,12 @@ func main() {
 		fmt.Printf("error::%#v \n", err)
 		return
 	}
-	fmt.Printf("list:%#v \n", list)
+	fmt.Println("★★★★★★★★★★★★★★★")
+	for _, v := range list.Diaries {
+		fmt.Printf("e:%v \n", v.Previous)
+		fmt.Printf("e:%v \n", v.Next)
+	}
+	fmt.Println("★★★★★★★★★★★★★★★")
 
 	putRequest := &diary.DiaryRequest{Id: "5ddbb13d0ee08a029d02d23d", Title: "更新", Text: "これは更新しましたよ"}
 	ur, err := client.Put(context.TODO(), putRequest)

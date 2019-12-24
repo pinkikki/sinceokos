@@ -9,7 +9,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/timestamp.pb.dart' as $2;
+import './google/protobuf/timestamp.pb.dart' as $2;
 
 class DiaryRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DiaryRequest', createEmptyInstance: create)
@@ -56,6 +56,8 @@ class DiaryResource extends $pb.GeneratedMessage {
     ..aOS(3, 'text')
     ..a<$2.Timestamp>(4, 'createdAt', $pb.PbFieldType.OM, protoName: 'createdAt', defaultOrMaker: $2.Timestamp.getDefault, subBuilder: $2.Timestamp.create)
     ..a<$2.Timestamp>(5, 'updatedAt', $pb.PbFieldType.OM, protoName: 'updatedAt', defaultOrMaker: $2.Timestamp.getDefault, subBuilder: $2.Timestamp.create)
+    ..aOS(6, 'previous')
+    ..aOS(7, 'next')
     ..hasRequiredFields = false
   ;
 
@@ -97,6 +99,16 @@ class DiaryResource extends $pb.GeneratedMessage {
   set updatedAt($2.Timestamp v) { setField(5, v); }
   $core.bool hasUpdatedAt() => $_has(4);
   void clearUpdatedAt() => clearField(5);
+
+  $core.String get previous => $_getS(5, '');
+  set previous($core.String v) { $_setString(5, v); }
+  $core.bool hasPrevious() => $_has(5);
+  void clearPrevious() => clearField(6);
+
+  $core.String get next => $_getS(6, '');
+  set next($core.String v) { $_setString(6, v); }
+  $core.bool hasNext() => $_has(6);
+  void clearNext() => clearField(7);
 }
 
 class DiaryResources extends $pb.GeneratedMessage {

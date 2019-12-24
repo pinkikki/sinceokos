@@ -31,6 +31,8 @@ func (s *DiaryService) Get(ctx context.Context, d *DiaryId) (*DiaryResource, err
 		Text:      diary.Text,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
+		Previous:  diary.Previous,
+		Next:      diary.Next,
 	}, nil
 }
 
@@ -60,6 +62,8 @@ func (s *DiaryService) List(context.Context, *empty.Empty) (*DiaryResources, err
 				Text:      diary.Text,
 				CreatedAt: createdAt,
 				UpdatedAt: updatedAt,
+				Previous:  diary.Previous,
+				Next:      diary.Next,
 			},
 		)
 	}
@@ -97,6 +101,8 @@ func (s *DiaryService) Next(ctx context.Context, d *DiaryId) (*DiaryResource, er
 		Text:      diary.Text,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
+		Previous:  diary.Previous,
+		Next:      diary.Next,
 	}, nil
 }
 
@@ -121,6 +127,8 @@ func (s *DiaryService) Previous(ctx context.Context, d *DiaryId) (*DiaryResource
 		Text:      diary.Text,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
+		Previous:  diary.Previous,
+		Next:      diary.Next,
 	}, nil
 }
 
@@ -128,7 +136,7 @@ func (s *DiaryService) Download(req *DiarySnapshotId, srv Diary_DownloadServer) 
 	var r io.ReadCloser
 	r, err := Read(req)
 	if err != nil {
-		return nil
+		return err
 	}
 	defer r.Close()
 
@@ -151,6 +159,23 @@ func (s *DiaryService) Download(req *DiarySnapshotId, srv Diary_DownloadServer) 
 	return nil
 }
 
-func (s *DiaryService) Upload(ctx context.Context, d *DiarySnapshot) (*empty.Empty, error) {
-	return &empty.Empty{}, nil
+func (s *DiaryService) Upload(stream Diary_UploadServer) error {
+	var w io.WriteCloser
+	w, err := GetWriter()
+	if err != nil {
+		return err
+	}
+	defer w.Close()
+
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		w.Write(res.Snapshot)
+	}
+	return stream.SendAndClose(&empty.Empty{})
 }
