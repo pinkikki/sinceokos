@@ -14,6 +14,7 @@ dependencies:
   grpc: ^2.1.2
   protobuf: ^0.14.3
   image_picker: ^0.6.2
+  global_configuration: ^1.4.0
 
 dev_dependencies:
   flutter_test:

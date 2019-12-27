@@ -1,0 +1,4 @@
+{
+  "grpc_server_host": "172.19.0.2",
+  "grpc_server_port": "19003"
+}

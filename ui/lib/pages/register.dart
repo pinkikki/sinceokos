@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sinceokos_ui/app_service.dart';
 import 'package:sinceokos_ui/port/diary_service.dart';
 
 class DiaryRegisterPage extends StatefulWidget {
@@ -12,15 +13,16 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
   final _formKey = GlobalKey<FormState>();
   String _title;
   String _text;
+  DiaryService _diaryService;
 
   Future<void> _save() async {
-    await DiaryService.save(_title, _text);
+    await _diaryService.save(_title, _text);
     Navigator.pop(context);
   }
 
   Future getImage(ImageSource imageSource) async {
     var image = await ImagePicker.pickImage(source: imageSource);
-    DiaryService.upload(image);
+    _diaryService.upload(image);
   }
 
   Widget buildImageSelector(BuildContext context) {
@@ -43,6 +45,7 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    _diaryService = AppService.of(context).diaryService;
     return Scaffold(
         appBar: AppBar(
           title: Text("Cokos日記登録"),

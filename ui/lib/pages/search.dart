@@ -4,9 +4,12 @@ import 'package:sinceokos_ui/port/diary_service.dart';
 
 class DiarySearchDelegate extends SearchDelegate<String> {
   List<DiaryResource> _diaries = List();
+  final DiaryService _diaryService;
+
+  DiarySearchDelegate(this._diaryService);
 
   Future<List<DiaryResource>> _get() async {
-    var response = await DiaryService.list();
+    var response = await _diaryService.list();
     return response.diaries;
   }
 

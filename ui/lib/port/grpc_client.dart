@@ -1,15 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:grpc/grpc.dart';
 
 class GrpcClientSingleton {
   ClientChannel client;
-  static final GrpcClientSingleton _singleton =
-      new GrpcClientSingleton._internal();
 
-  factory GrpcClientSingleton() => _singleton;
+  factory GrpcClientSingleton(String host, int port) =>
+      GrpcClientSingleton._internal(host, port);
 
-  GrpcClientSingleton._internal() {
-    client = ClientChannel("172.19.0.1",
-        port: 19003,
+  GrpcClientSingleton._internal(String host, int port) {
+    client = ClientChannel(host,
+        port: port,
         options: ChannelOptions(
           credentials: ChannelCredentials.insecure(),
           idleTimeout: Duration(minutes: 1),

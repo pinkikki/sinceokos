@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:sinceokos_ui/app_service.dart';
 import 'package:sinceokos_ui/pages/register.dart';
 import 'package:sinceokos_ui/pages/search.dart';
 import 'package:sinceokos_ui/port/diary.pb.dart';
@@ -16,21 +17,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DiarySearchDelegate _delegate = new DiarySearchDelegate();
+  DiarySearchDelegate _delegate;
   DiaryResource _currentDiary;
   Uint8List _images;
   bool _isPreviousDisabled = true;
   bool _isNextDisabled = true;
+  DiaryService _diaryService;
 
   Future<void> _get(selected) async {
-    var response = DiaryService.get(selected);
+    var response = _diaryService.get(selected);
     setState(() {
       _onDiaryResource(response);
     });
   }
 
   Future<void> _download(selected) async {
-    var response = DiaryService.download(selected);
+    var response = _diaryService.download(selected);
     setState(() {
       var bytes = List<int>();
       response
@@ -43,14 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _previous() async {
-    var response = DiaryService.previous(_currentDiary.id);
+    var response = _diaryService.previous(_currentDiary.id);
     setState(() {
       _onDiaryResource(response);
     });
   }
 
   Future<void> _next() async {
-    var response = DiaryService.next(_currentDiary.id);
+    var response = _diaryService.next(_currentDiary.id);
     setState(() {
       _onDiaryResource(response);
     });
@@ -64,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
       var n = v.next;
       debugPrint("previous=[$p]");
       debugPrint("next=[$n]");
-      _isPreviousDisabled  = (v.previous == null || v.previous.isEmpty);
-      _isNextDisabled  = (v.next == null || v.next.isEmpty);
+      _isPreviousDisabled = (v.previous == null || v.previous.isEmpty);
+      _isNextDisabled = (v.next == null || v.next.isEmpty);
     }).catchError((e) {
       _currentDiary = null;
       _images = null;
@@ -116,6 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _diaryService = AppService.of(context).diaryService;
+    _delegate = new DiarySearchDelegate(_diaryService);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
