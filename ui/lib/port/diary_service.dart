@@ -8,10 +8,10 @@ import 'package:sinceokos_ui/port/google/protobuf/empty.pb.dart';
 import 'package:sinceokos_ui/port/grpc_client.dart';
 
 class DiaryService {
-  GrpcClientSingleton grpc;
+  Grpc grpc;
 
-  DiaryService(String grpcServerHost, int grpcServerPort) {
-    grpc = GrpcClientSingleton(grpcServerHost, grpcServerPort);
+  DiaryService(Grpc grpc) {
+    this.grpc = grpc;
   }
 
   Future<DiaryResource> get(String id) async {

@@ -45,7 +45,7 @@ class _DiaryRegisterState extends State<DiaryRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    _diaryService = AppService.of(context).diaryService;
+    _diaryService = DiaryService(GrpcContainer.of(context).grpc);
     return Scaffold(
         appBar: AppBar(
           title: Text("Cokos日記登録"),

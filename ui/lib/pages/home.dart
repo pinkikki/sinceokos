@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _diaryService = AppService.of(context).diaryService;
+    _diaryService = DiaryService(GrpcContainer.of(context).grpc);
     _delegate = new DiarySearchDelegate(_diaryService);
     return Scaffold(
       appBar: AppBar(

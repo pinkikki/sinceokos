@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sinceokos_ui/port/diary_service.dart';
+import 'package:sinceokos_ui/port/grpc_client.dart';
 
-class AppService extends InheritedWidget {
-  AppService({@required this.diaryService, @required Widget child})
+class GrpcContainer extends InheritedWidget {
+  GrpcContainer({@required this.grpc, @required Widget child})
       : super(child: child);
 
-  final DiaryService diaryService;
+  final Grpc grpc;
 
-  static AppService of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AppService>();
+  static GrpcContainer of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<GrpcContainer>();
   }
 
   @override
